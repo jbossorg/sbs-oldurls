@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema name="jbossOldUrls">
+	<table name="jbossOldUrl" description="Mapping between old URL and jive object">
+		<column name="id" type="bigint" nullable="false" description="Primary key"/>
+		<column name="systemId" type="int" nullable="false" description="ID of system"/>
+		<column name="urlType" type="int" nullable="true" description="URL Type"/>
+		<column name="param1" type="varchar" size="150" nullable="false" description="URL Parameter 1"/>
+		<column name="param2" type="varchar" size="150" nullable="true" description="URL Parameter 2"/>
+		<column name="param3" type="varchar" size="150" nullable="true" description="URL Parameter 3"/>
+		<column name="objectType" type="int" nullable="false" description="Ojbect Type"/>
+		<column name="objectID" type="bigint" nullable="false" description="Ojbect ID"/>
+		<index type="primary" name="jbossOldUrl_pk" column="id"/>
+		<index type="normal" name="jbossOldUrl_allParams_idx" column="systemId, urlType, param1, param2, param3"
+			   constraint="unique"/>
+	</table>
+</schema>
