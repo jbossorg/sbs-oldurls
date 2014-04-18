@@ -18,7 +18,8 @@ public interface OldUrlManager {
 	 * Enumeration of systems
 	 */
 	public enum SYSTEM {
-		SFWK(1);
+		SFWK(1),
+        FUSE(2);
 
 		private SYSTEM(int id) {
 			this.id = id;

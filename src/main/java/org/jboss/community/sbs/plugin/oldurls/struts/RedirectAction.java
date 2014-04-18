@@ -46,7 +46,9 @@ public class RedirectAction extends JiveActionSupport {
 		OldUrlManager.SYSTEM system;
 		if (sid.intValue() == OldUrlManager.SYSTEM.SFWK.getId()) {
 			system = OldUrlManager.SYSTEM.SFWK;
-		} else {
+		} else if (sid.intValue() == OldUrlManager.SYSTEM.FUSE.getId()) {
+            system = OldUrlManager.SYSTEM.FUSE;
+        } else {
 			log.debug("unknown system id");
 			return NOTFOUND;
 		}
