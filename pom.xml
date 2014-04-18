@@ -9,7 +9,7 @@
 	<name>SBS plugin: Old URLs</name>
 	<description>Plugin provides backward compatibility for old URLs</description>
 	<url>https://github.com/jbossorg/sbs-oldurls</url>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 
 	<inceptionYear>2011</inceptionYear>
 	<licenses>
