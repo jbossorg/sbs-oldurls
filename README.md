@@ -22,7 +22,10 @@ where:
 
 In old system needs to have defined redirect rule which points to redirect.jspa action. Examples:
 
-    RewriteRule /Community/(.*) http://community.jboss.org/oldurl/redirect.jspa?sid=1&p1=$1 [R=permanent,L]
+    RewriteRule /Community/(.*)                  http://community.jboss.org/oldurl/redirect.jspa?sid=1&p1=$1 [R=301,L]
+
+    RewriteCond %{QUERY_STRING} messageID=(.*)
+    RewriteRule ^/forums/message.jspa            https://community.jboss.org/oldurl/redirect.jspa?sid=2&urlType=2&p1=%1 [R=301,L]
 
 System IDs and Old URLs management
 ----------------------------------
