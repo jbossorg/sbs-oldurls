@@ -1,3 +1,6 @@
+*.iml
+
+target/
 *.class
 
 # Package Files #

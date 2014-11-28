@@ -6,10 +6,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.jboss.community.sbs.plugin</groupId>
 	<artifactId>oldurls</artifactId>
-	<name>SBS plugin: Old URLs</name>
+	<name>oldurls</name>
 	<description>Plugin provides backward compatibility for old URLs</description>
 	<url>https://github.com/jbossorg/sbs-oldurls</url>
-	<version>1.2.0</version>
+	<version>7.0.0</version>
+
+	<parent>
+		<groupId>com.jivesoftware.maven</groupId>
+		<artifactId>jive-parent-pom</artifactId>
+		<version>7.0.3.1-0</version>
+	</parent>
 
 	<inceptionYear>2011</inceptionYear>
 	<licenses>
@@ -38,171 +44,50 @@
 			<organization>Red Hat</organization>
 			<organizationUrl>http://www.redhat.com</organizationUrl>
 			<timezone>+1</timezone>
-			<url>http://community.jboss.org/people/lkrzyzanek</url>
+			<url>https://developer.jboss.org/people/lkrzyzanek</url>
 		</developer>
 	</developers>
 
-
 	<properties>
-		<sbs.version>4.5.6.0</sbs.version>
-		<sbs.min.version>4.5.0.0</sbs.min.version>
-		<sbs.max.version>8.0.0.0</sbs.max.version>
-		<java.version>1.6</java.version>
-		<final.name>${project.artifactId}-${project.version}-${sbs.version}</final.name>
+		<jive.min.version>${jive.version.min}</jive.min.version>
+		<jive.max.version>10.10.10.10</jive.max.version>
 	</properties>
 
-
 	<build>
-		<finalName>${final.name}</finalName>
+		<outputDirectory>${project.build.directory}/classes</outputDirectory>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
 			</plugin>
-			<!-- Weave transactions into the plugin -->
+			<!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
-				<version>1.3</version>
-				<configuration>
-					<aspectLibraries>
-						<aspectLibrary>
-							<groupId>org.springframework</groupId>
-							<artifactId>spring-aspects</artifactId>
-						</aspectLibrary>
-					</aspectLibraries>
-					<source>${java.version}</source>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-					</execution>
-				</executions>
+			</plugin>
+			-->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
+				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
-
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<appendAssemblyId>false</appendAssemblyId>
-							<descriptors>
-								<descriptor>${basedir}/src/main/assembly/assembly-plugin.xml</descriptor>
-							</descriptors>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			<!-- Unpackages this Jive plugin. Used in conjunction with the -DpluginDirs= property -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.6</version>
-				<executions>
-					<execution>
-						<!-- Unpackages this SBS plugin. That way it can be used in conjunction with the -DpluginDirs= property, which bypasses
-							the standard plugin installation (which happens via the admin console), by pointing to exploded plugin jar created by this. -->
-						<id>explode-sbs-plugin</id>
-						<phase>package</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<tasks>
-								<mkdir dir="${basedir}/target/${final.name}"/>
-								<unjar src="${basedir}/target/${final.name}.jar"
-									   dest="${basedir}/target/${final.name}"/>
-							</tasks>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-
-			<!-- For unit testing -->
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>**/selenium/*Test.java</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.8</version>
-				<configuration>
-					<additionalProjectnatures>
-						<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
-					</additionalProjectnatures>
-				</configuration>
 			</plugin>
 		</plugins>
+
+		<!-- Has to be version 2.2-beta-5 otherwise developers[0] filtering doesn't work -->
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
 				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId></groupId>
-										<artifactId></artifactId>
-										<versionRange>[2.0.2,)</versionRange>
-										<goals>
-											<goal></goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.codehaus.mojo</groupId>
-										<artifactId>aspectj-maven-plugin</artifactId>
-										<versionRange>[1.3,)</versionRange>
-										<goals>
-											<goal>compile</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.2-beta-5</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -211,77 +96,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.jivesoftware</groupId>
-			<artifactId>jive-sbs-employee</artifactId>
-			<version>${sbs.version}</version>
-			<type>jar</type>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.jivesoftware</groupId>
-			<artifactId>jive-sbs-employee-all</artifactId>
-			<version>${sbs.version}</version>
-			<type>pom</type>
-			<scope>provided</scope>
+			<artifactId>jive-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.3</version>
-			<type>jar</type>
-			<scope>provided</scope>
-		</dependency>
-		<!-- The following dependencies are for unit testing -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.4</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>jive.archiva</id>
-			<!-- To access these repositories you need to have access defined in .m2/settings.xml in server section -->
-			<!-- How to: https://community.jivesoftware.com/docs/DOC-38298 -->
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-
-			<repositories>
-				<repository>
-					<id>jive.internal</id>
-					<name>Jive's Repository</name>
-					<url>https://maven-secure.jivesoftware.com/archiva/repository/jive.internal</url>
-				</repository>
-				<repository>
-					<id>jive.snapshots</id>
-					<name>Jive's Repository</name>
-					<url>https://maven-secure.jivesoftware.com/archiva/repository/jive.snapshots</url>
-				</repository>
-			</repositories>
-
-			<pluginRepositories>
-				<pluginRepository>
-					<id>jive.internal</id>
-					<name>Jive's Repository</name>
-					<url>https://maven-secure.jivesoftware.com/archiva/repository/jive.internal</url>
-				</pluginRepository>
-				<pluginRepository>
-					<id>jive.snapshots</id>
-					<name>Jive's Repository</name>
-					<url>https://maven-secure.jivesoftware.com/archiva/repository/jive.snapshots</url>
-				</pluginRepository>
-			</pluginRepositories>
-
-			<properties>
-				<tomcat6.home></tomcat6.home>
-				<cargo.wait>false</cargo.wait>
-				<jive.setup>true</jive.setup>
-				<jive.devMode>false</jive.devMode>
-				<pluginDirs>null</pluginDirs>
-			</properties>
-		</profile>
-	</profiles>
 
 </project>
