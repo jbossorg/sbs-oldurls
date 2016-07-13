@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.community.sbs.plugin.oldurls.OldUrlManager.SYSTEM;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 
 import com.jivesoftware.base.database.dao.JiveJdbcDaoSupport;
 import com.jivesoftware.base.database.sequence.SequenceManager;
@@ -92,7 +92,7 @@ public class DbOldUrlDAO extends JiveJdbcDaoSupport implements OldUrlDAO {
 		}
 	}
 
-	private class DummyJiveObjectMapper implements ParameterizedRowMapper<JiveObject> {
+	private class DummyJiveObjectMapper implements RowMapper<JiveObject> {
 
 		@Override
 		public JiveObject mapRow(ResultSet rs, int rowNum) throws SQLException {

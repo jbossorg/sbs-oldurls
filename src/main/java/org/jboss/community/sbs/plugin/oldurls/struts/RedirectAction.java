@@ -11,7 +11,6 @@ import org.jboss.community.sbs.plugin.oldurls.OldUrlManager;
 
 import com.jivesoftware.community.JiveObject;
 import com.jivesoftware.community.action.JiveActionSupport;
-import com.jivesoftware.community.web.JiveResourceResolver;
 
 /**
  * @author Libor Krzyzanek (lkrzyzan)
@@ -59,7 +58,7 @@ public class RedirectAction extends JiveActionSupport {
 			return NOTFOUND;
 		}
 
-		urlToRedirect = JiveResourceResolver.getJiveObjectURL(jiveObject, true);
+		urlToRedirect = globalResourceResolver.getURL(jiveObject, true);
 
 		return SUCCESS;
 	}
